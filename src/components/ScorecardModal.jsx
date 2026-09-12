@@ -1,17 +1,41 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, ArrowRight, ArrowLeft, RotateCcw, Sparkles, ShieldCheck } from 'lucide-react';
+import {
+  X,
+  CheckCircle2,
+  ArrowRight,
+  ArrowLeft,
+  RotateCcw,
+  Sparkles,
+  User,
+  Briefcase,
+  Building2,
+  Mail,
+  Phone,
+  Lock,
+  AlertTriangle
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
+  // Step: 'intake' | 'scorecard' | 'report'
+  const [modalStep, setModalStep] = useState('intake');
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    role: '',
+    companyName: '',
+    email: '',
+    phone: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
 
   const questions = [
     {
       id: 1,
       system: 'Strategy & Positioning',
+      systemNumber: '01',
       question: 'How clearly does your executive team articulate your competitive moat without CEO intervention?',
       options: [
         { label: 'Significant ambiguity; relies entirely on CEO presence.', score: 1 },
@@ -22,6 +46,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 2,
       system: 'Offer & Product Ecosystem',
+      systemNumber: '02',
       question: 'Are your solutions packaged for compounding enterprise retention and high-margin expansion?',
       options: [
         { label: 'Ad-hoc pricing and custom scope every deal.', score: 1 },
@@ -32,6 +57,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 3,
       system: 'Sales System',
+      systemNumber: '03',
       question: 'Can multi-million dollar deals close predictably without the CEO personally leading discussions?',
       options: [
         { label: 'No; founder/CEO is required for key conversions.', score: 1 },
@@ -42,6 +68,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 4,
       system: 'Marketing & Authority',
+      systemNumber: '04',
       question: 'Does your executive brand generate inbound inquiries from sovereign and enterprise buyers?',
       options: [
         { label: 'Rely primarily on personal network and word of mouth.', score: 1 },
@@ -52,6 +79,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 5,
       system: 'Operations & Delivery',
+      systemNumber: '05',
       question: 'How smoothly does fulfillment scale when client volume surges 2x to 3x?',
       options: [
         { label: 'Severe delivery strain and quality breakdowns.', score: 1 },
@@ -62,6 +90,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 6,
       system: 'Team & Org Design',
+      systemNumber: '06',
       question: 'Do executive departments collaborate seamlessly without political silos or territorial friction?',
       options: [
         { label: 'Frequent siloed disputes and delayed decisions.', score: 1 },
@@ -72,6 +101,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 7,
       system: 'Founder & Leadership Evolution',
+      systemNumber: '07',
       question: 'How much of the CEO’s time is spent on $10k/hr strategic vision vs. operational firefighting?',
       options: [
         { label: 'Over 60% spent on daily firefighting and micromanagement.', score: 1 },
@@ -82,6 +112,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 8,
       system: 'Knowledge Transfer & IP',
+      systemNumber: '08',
       question: 'If two key executive leaders departed tomorrow, would operations continue undisrupted?',
       options: [
         { label: 'Catastrophic loss of institutional wisdom.', score: 1 },
@@ -92,6 +123,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 9,
       system: 'AI & Autonomous Systems',
+      systemNumber: '09',
       question: 'Have you integrated AI workflows and automated decision frameworks into executive routines?',
       options: [
         { label: 'Virtually no automated intelligence workflows.', score: 1 },
@@ -102,6 +134,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     {
       id: 10,
       system: 'Talent & Succession Engine',
+      systemNumber: '10',
       question: 'Do you have qualified, fully groomed successors prepared for every C-suite seat?',
       options: [
         { label: 'Zero pipeline; single-point-of-failure across key roles.', score: 1 },
@@ -111,6 +144,30 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     },
   ];
 
+  const handleFormChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: null });
+    }
+  };
+
+  const handleStartScorecard = (e) => {
+    e.preventDefault();
+    const errors = {};
+    if (!formData.fullName.trim()) errors.fullName = 'Full name is required';
+    if (!formData.companyName.trim()) errors.companyName = 'Company name is required';
+    if (!formData.email.trim() || !formData.email.includes('@')) errors.email = 'Valid business email is required';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setModalStep('scorecard');
+    setCurrentStep(0);
+  };
+
   const handleSelectOption = (score) => {
     const newAnswers = { ...answers, [currentStep]: score };
     setAnswers(newAnswers);
@@ -118,7 +175,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      setIsCompleted(true);
+      setModalStep('report');
       try {
         confetti({
           particleCount: 75,
@@ -127,7 +184,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
           colors: ['#D4AF37', '#F5F2EB', '#A48123'],
         });
       } catch (e) {
-        // silent fail if confetti unsupported
+        // silent fail
       }
     }
   };
@@ -137,29 +194,30 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     const maxScore = questions.length * 5;
     const percentage = Math.round((totalScore / maxScore) * 100);
 
-    // Identify lowest scoring system
     let lowestScore = 6;
     let bottleneckSystem = questions[0].system;
+    let bottleneckNumber = questions[0].systemNumber;
     questions.forEach((q, idx) => {
-      const score = answers[idx] || 3;
+      const score = answers[idx] !== undefined ? answers[idx] : 3;
       if (score < lowestScore) {
         lowestScore = score;
         bottleneckSystem = q.system;
+        bottleneckNumber = q.systemNumber;
       }
     });
 
-    return { totalScore, maxScore, percentage, bottleneckSystem };
+    return { totalScore, maxScore, percentage, bottleneckSystem, bottleneckNumber };
   };
 
   const handleReset = () => {
     setAnswers({});
     setCurrentStep(0);
-    setIsCompleted(false);
+    setModalStep('intake');
   };
 
   if (!isOpen) return null;
 
-  const results = isCompleted ? calculateResults() : null;
+  const results = modalStep === 'report' ? calculateResults() : null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-lg">
@@ -172,12 +230,153 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 text-stone-400 hover:text-white transition-colors"
+          className="absolute top-6 right-6 text-stone-400 hover:text-white transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {!isCompleted ? (
+        {/* ========================================================
+            MODAL STEP 1: INTAKE FORM
+        ======================================================== */}
+        {modalStep === 'intake' && (
+          <div className="space-y-6">
+            <div className="space-y-2 border-b border-white/[0.08] pb-5">
+              <div className="inline-flex items-center gap-2 font-mono text-xs text-amber-400 uppercase tracking-widest font-semibold bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>The Bottleneck Scorecard</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-light text-white leading-tight">
+                Which System Is Holding Your Business Back?
+              </h2>
+              <p className="text-stone-300 font-sans text-xs sm:text-sm font-light leading-relaxed">
+                Ten questions. Three minutes. You will receive an immediate, personalised read on which of the ten core business systems is the most likely constraint on your growth.
+              </p>
+              <div className="text-[11px] font-mono text-amber-300/90 pt-1">
+                Complimentary. No commitment required.
+              </div>
+            </div>
+
+            <form onSubmit={handleStartScorecard} className="space-y-4">
+              {/* Full Name * */}
+              <div className="space-y-1">
+                <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                  Full Name <span className="text-amber-400">*</span>
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleFormChange}
+                    placeholder="Your full name"
+                    className={`w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border ${
+                      formErrors.fullName ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                    } rounded text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                  />
+                </div>
+                {formErrors.fullName && <p className="text-[10px] text-rose-400 font-mono">{formErrors.fullName}</p>}
+              </div>
+
+              {/* Your Role */}
+              <div className="space-y-1">
+                <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                  Your Role
+                </label>
+                <div className="relative">
+                  <Briefcase className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleFormChange}
+                    placeholder="e.g., Founder & CEO"
+                    className="w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border border-white/10 focus:border-amber-400 rounded text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Company Name * */}
+              <div className="space-y-1">
+                <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                  Company Name <span className="text-amber-400">*</span>
+                </label>
+                <div className="relative">
+                  <Building2 className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={handleFormChange}
+                    placeholder="Your company name"
+                    className={`w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border ${
+                      formErrors.companyName ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                    } rounded text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                  />
+                </div>
+                {formErrors.companyName && <p className="text-[10px] text-rose-400 font-mono">{formErrors.companyName}</p>}
+              </div>
+
+              {/* Email & Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                    Email Address <span className="text-amber-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      placeholder="your@company.com"
+                      className={`w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border ${
+                        formErrors.email ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                      } rounded text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                    />
+                  </div>
+                  {formErrors.email && <p className="text-[10px] text-rose-400 font-mono">{formErrors.email}</p>}
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                    Phone Number <span className="text-amber-400">*</span>
+                  </label>
+                  <div className="relative">
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleFormChange}
+                      placeholder="+971 XX XXX XXXX"
+                      className={`w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border ${
+                        formErrors.phone ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                      } rounded text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                    />
+                  </div>
+                  {formErrors.phone && <p className="text-[10px] text-rose-400 font-mono">{formErrors.phone}</p>}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/[0.08] flex items-center justify-end">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-400 hover:bg-white text-black font-mono text-xs uppercase tracking-widest font-bold rounded transition-all shadow-[0_0_20px_rgba(212,175,55,0.25)] cursor-pointer"
+                >
+                  <span>Begin the Scorecard</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ========================================================
+            MODAL STEP 2: QUESTIONS
+        ======================================================== */}
+        {modalStep === 'scorecard' && (
           <div>
             {/* Header & Progress */}
             <div className="mb-6">
@@ -206,7 +405,7 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
                 <button
                   key={idx}
                   onClick={() => handleSelectOption(opt.score)}
-                  className="w-full text-left p-4 sm:p-5 bg-stone-950/60 border border-white/[0.08] hover:border-amber-400/60 hover:bg-white/[0.04] transition-all group"
+                  className="w-full text-left p-4 sm:p-5 bg-stone-950/60 border border-white/[0.08] hover:border-amber-400/60 hover:bg-white/[0.04] transition-all group rounded-xl cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm sm:text-base font-sans font-light text-stone-200 group-hover:text-white">
@@ -219,37 +418,42 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
             </div>
 
             {/* Navigation back */}
-            {currentStep > 0 && (
-              <button
-                onClick={() => setCurrentStep(currentStep - 1)}
-                className="flex items-center gap-2 font-mono text-xs text-stone-400 hover:text-white uppercase tracking-wider"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                Previous Question
-              </button>
-            )}
+            <button
+              onClick={() => {
+                if (currentStep > 0) setCurrentStep(currentStep - 1);
+                else setModalStep('intake');
+              }}
+              className="flex items-center gap-2 font-mono text-xs text-stone-400 hover:text-white uppercase tracking-wider cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              {currentStep > 0 ? 'Previous Question' : 'Back to Intake'}
+            </button>
           </div>
-        ) : (
-          /* Results View */
+        )}
+
+        {/* ========================================================
+            MODAL STEP 3: RESULTS / REPORT
+        ======================================================== */}
+        {modalStep === 'report' && results && (
           <div className="text-center space-y-6">
-            <div className="inline-flex items-center gap-2 font-mono text-xs text-amber-400 uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 bg-amber-400/10">
+            <div className="inline-flex items-center gap-2 font-mono text-xs text-amber-400 uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 bg-amber-400/10 font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               Diagnostic Complete
             </div>
 
             <h3 className="text-3xl sm:text-4xl font-serif font-light text-white">
-              Architecture Score: <span className="text-amber-300">{results.percentage}%</span>
+              System Autonomy Score: <span className="text-amber-300 font-medium">{results.percentage}%</span>
             </h3>
 
-            <div className="p-6 bg-stone-950/80 border border-amber-400/30 text-left space-y-3">
-              <div className="font-mono text-xs text-stone-400 uppercase tracking-wider">
+            <div className="p-6 bg-stone-950/80 border border-amber-400/30 text-left space-y-3 rounded-xl">
+              <div className="font-mono text-xs text-amber-400 uppercase tracking-wider font-semibold">
                 Primary Bottleneck Identified:
               </div>
-              <div className="text-xl sm:text-2xl font-serif text-amber-200">
-                {results.bottleneckSystem}
+              <div className="text-xl sm:text-2xl font-serif text-white">
+                System {results.bottleneckNumber}: <span className="text-amber-300">{results.bottleneckSystem}</span>
               </div>
               <p className="text-xs sm:text-sm font-sans text-stone-300 font-light leading-relaxed">
-                Your enterprise demonstrates strategic potential, but friction in <strong>{results.bottleneckSystem}</strong> creates an operational bottleneck that prevents autonomous scaling without executive over-involvement.
+                Prepared for <strong className="text-white font-normal">{formData.fullName}</strong>{formData.companyName ? ` (${formData.companyName})` : ''}. Your enterprise demonstrates strong market positioning, but friction in <strong>{results.bottleneckSystem}</strong> creates an operational bottleneck that prevents true founder detachment.
               </p>
             </div>
 
@@ -259,14 +463,14 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
                   onClose();
                   onOpenConversation();
                 }}
-                className="luxury-btn luxury-btn-primary !py-3.5 !px-8 text-xs font-semibold"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded bg-amber-400 text-black font-mono text-xs uppercase tracking-wider font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)] cursor-pointer"
               >
-                Schedule Confidential Review →
+                <span>Schedule 90-Min Diagnostic →</span>
               </button>
 
               <button
                 onClick={handleReset}
-                className="luxury-btn luxury-btn-outline !py-3.5 !px-6 text-xs flex items-center justify-center gap-2"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded border border-white/20 text-stone-300 font-mono text-xs uppercase tracking-wider hover:border-amber-400 hover:text-white transition-all cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 Retake
@@ -278,3 +482,5 @@ export const ScorecardModal = ({ isOpen, onClose, onOpenConversation }) => {
     </div>
   );
 };
+
+export default ScorecardModal;

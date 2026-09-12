@@ -17,6 +17,8 @@ import { JournalPage } from './pages/JournalPage';
 import { PartnershipsPage } from './pages/PartnershipsPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
+import { AssessmentPage } from './pages/AssessmentPage';
+import { ScorecardPage } from './pages/ScorecardPage';
 
 export function App() {
   return (
@@ -43,6 +45,10 @@ export function App() {
               <Route path="/partnerships" element={<PartnershipsPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/assessment" element={<AssessmentPage />} />
+              <Route path="/diagnostic" element={<AssessmentPage />} />
+              <Route path="/scorecard" element={<ScorecardPage />} />
+              <Route path="/bottleneck-scorecard" element={<ScorecardPage />} />
             </Routes>
           </main>
 

@@ -35,6 +35,7 @@ export const Footer = () => {
               Platform Architecture
             </div>
             <div className="flex flex-col space-y-2 font-mono text-xs">
+              <Link to="/assessment" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">→ Performance Assessment</Link>
               <Link to="/approach" className="hover:text-amber-300 transition-colors">→ Performance Model</Link>
               <Link to="/architecture" className="hover:text-amber-300 transition-colors">→ Four-Phase System</Link>
               <Link to="/organizations" className="hover:text-amber-300 transition-colors">→ Who We Serve</Link>

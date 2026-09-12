@@ -9,15 +9,49 @@ import {
 import confetti from 'canvas-confetti';
 
 export const FounderOwnerPage = () => {
+  const [scorecardStep, setScorecardStep] = useState('intake'); // 'intake' | 'questions' | 'results'
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState(null);
   
+  const [formData, setFormData] = useState({
+    fullName: '',
+    role: '',
+    companyName: '',
+    email: '',
+    phone: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+
   const scorecardRef = useRef(null);
 
   const scrollToScorecard = () => {
     scorecardRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleFormChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: null });
+    }
+  };
+
+  const handleStartScorecard = (e) => {
+    e.preventDefault();
+    const errors = {};
+    if (!formData.fullName.trim()) errors.fullName = 'Full name is required';
+    if (!formData.companyName.trim()) errors.companyName = 'Company name is required';
+    if (!formData.email.trim() || !formData.email.includes('@')) errors.email = 'Valid business email is required';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setScorecardStep('questions');
+    setCurrentStep(0);
   };
 
   const questions = [
@@ -431,14 +465,14 @@ export const FounderOwnerPage = () => {
               <Sparkles className="w-3.5 h-3.5" />
               The Bottleneck Scorecard
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-white">
-              Find Out Which System Is Holding Your Business Back.
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-white leading-tight">
+              Which System Is Holding Your Business Back?
             </h2>
             <p className="text-stone-300 font-light text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              The Bottleneck Scorecard pinpoints which of the ten core business systems is the most likely constraint on your growth — from Strategy and Sales to Operations, Team, and Knowledge Transfer.
+              Ten questions. Three minutes. You will receive an immediate, personalised read on which of the ten core business systems is the most likely constraint on your growth.
             </p>
             <p className="text-amber-200/90 font-serif italic text-sm sm:text-base">
-              In three minutes, you will receive a personalised diagnostic identifying the single biggest leverage point in your business. Complimentary. Personalised. Delivered on screen immediately.
+              Complimentary. No commitment required.
             </p>
 
             {/* 4 Stats Grid */}
@@ -459,7 +493,120 @@ export const FounderOwnerPage = () => {
 
           {/* Interactive Card */}
           <div className="p-8 sm:p-12 rounded-2xl bg-gradient-to-b from-[#11141E] to-[#0A0C12] border border-amber-400/40 shadow-2xl">
-            {!isCompleted ? (
+            {scorecardStep === 'intake' && (
+              <form onSubmit={handleStartScorecard} className="space-y-6">
+                <div className="border-b border-white/[0.08] pb-4">
+                  <h3 className="text-2xl font-serif text-white font-light">
+                    Before we begin, tell us about your business
+                  </h3>
+                  <p className="text-xs font-mono text-stone-400 tracking-wide mt-1">
+                    Your answers will be mapped to deliver a custom bottleneck diagnosis immediately on screen.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Full Name * */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                      Full Name <span className="text-amber-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleFormChange}
+                      placeholder="Your full name"
+                      className={`w-full px-4 py-3 bg-white/[0.03] border ${
+                        formErrors.fullName ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                      } rounded text-sm text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                    />
+                    {formErrors.fullName && <p className="text-xs text-rose-400 font-mono">{formErrors.fullName}</p>}
+                  </div>
+
+                  {/* Your Role */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                      Your Role
+                    </label>
+                    <input
+                      type="text"
+                      name="role"
+                      value={formData.role}
+                      onChange={handleFormChange}
+                      placeholder="e.g., Founder & CEO"
+                      className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 focus:border-amber-400 rounded text-sm text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors"
+                    />
+                  </div>
+
+                  {/* Company Name * */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                      Company Name <span className="text-amber-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleFormChange}
+                      placeholder="Your company name"
+                      className={`w-full px-4 py-3 bg-white/[0.03] border ${
+                        formErrors.companyName ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                      } rounded text-sm text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                    />
+                    {formErrors.companyName && <p className="text-xs text-rose-400 font-mono">{formErrors.companyName}</p>}
+                  </div>
+
+                  {/* Email & Phone */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                        Email Address <span className="text-amber-400">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        placeholder="your@company.com"
+                        className={`w-full px-4 py-3 bg-white/[0.03] border ${
+                          formErrors.email ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                        } rounded text-sm text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                      />
+                      {formErrors.email && <p className="text-xs text-rose-400 font-mono">{formErrors.email}</p>}
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-stone-300">
+                        Phone Number <span className="text-amber-400">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleFormChange}
+                        placeholder="+971 XX XXX XXXX"
+                        className={`w-full px-4 py-3 bg-white/[0.03] border ${
+                          formErrors.phone ? 'border-rose-500' : 'border-white/10 focus:border-amber-400'
+                        } rounded text-sm text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-colors`}
+                      />
+                      {formErrors.phone && <p className="text-xs text-rose-400 font-mono">{formErrors.phone}</p>}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-white/[0.08] flex items-center justify-end">
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-amber-400 hover:bg-white text-black font-mono text-xs uppercase tracking-widest font-bold rounded transition-all shadow-[0_0_20px_rgba(212,175,55,0.25)] cursor-pointer"
+                  >
+                    <span>Begin the Scorecard</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {scorecardStep === 'questions' && (
               <div>
                 {/* Progress Bar */}
                 <div className="mb-6">
@@ -497,17 +644,20 @@ export const FounderOwnerPage = () => {
                 </div>
 
                 {/* Back Button */}
-                {currentStep > 0 && (
-                  <button
-                    onClick={() => setCurrentStep(currentStep - 1)}
-                    className="flex items-center gap-1.5 font-mono text-xs text-stone-400 hover:text-white uppercase font-semibold cursor-pointer"
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    Previous Question
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    if (currentStep > 0) setCurrentStep(currentStep - 1);
+                    else setScorecardStep('intake');
+                  }}
+                  className="flex items-center gap-1.5 font-mono text-xs text-stone-400 hover:text-white uppercase font-semibold cursor-pointer"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  {currentStep > 0 ? 'Previous Question' : 'Back to Intake'}
+                </button>
               </div>
-            ) : (
+            )}
+
+            {scorecardStep === 'results' && isCompleted && (
               /* Results Screen */
               <div className="text-center py-6 space-y-6">
                 <div className="inline-flex items-center gap-2 font-mono text-xs text-amber-400 uppercase tracking-widest px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 font-semibold">
@@ -527,7 +677,7 @@ export const FounderOwnerPage = () => {
                     {results.bottleneckSystem}
                   </div>
                   <p className="text-sm font-sans text-stone-300 font-light leading-relaxed">
-                    Your business possesses strong growth potential, but operational constraints in <strong>{results.bottleneckSystem}</strong> limit your executive throughput and hold you back from true founder detachment.
+                    Prepared for <strong>{formData.fullName}</strong>{formData.companyName ? ` (${formData.companyName})` : ''}. Your business possesses strong growth potential, but operational constraints in <strong>{results.bottleneckSystem}</strong> limit your executive throughput and hold you back from true founder detachment.
                   </p>
                 </div>
 
@@ -544,6 +694,7 @@ export const FounderOwnerPage = () => {
                       setAnswers({});
                       setCurrentStep(0);
                       setIsCompleted(false);
+                      setScorecardStep('intake');
                     }}
                     className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded border border-white/20 text-stone-300 font-mono text-xs uppercase tracking-wider hover:border-amber-400 hover:text-white transition-all cursor-pointer"
                   >
