@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { PageTearLoader } from './components/PageTearLoader';
 
 import { SmoothScroll } from './components/SmoothScroll';
 
@@ -23,6 +24,7 @@ import { ScorecardPage } from './pages/ScorecardPage';
 export function App() {
   return (
     <Router>
+      <PageTearLoader />
       <ScrollToTop />
       <SmoothScroll>
         <div className="min-h-screen flex flex-col bg-[#06070A] text-[#F8F6F0] selection:bg-amber-400 selection:text-black font-sans antialiased">

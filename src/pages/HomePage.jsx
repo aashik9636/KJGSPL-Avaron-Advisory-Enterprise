@@ -482,62 +482,63 @@ export const HomePage = () => {
       {/* ========================================================
           1. EDITORIAL HERO SECTION (LEFT CONTENT + WIDE PARALLAX SLIDER)
       ======================================================== */}
-      <section className="relative w-full py-3 sm:py-5 overflow-hidden bg-[#06070A]">
-        <div className="w-full flex flex-col lg:flex-row items-center justify-between pl-4 sm:pl-6 lg:pl-8 xl:pl-10 pr-2 sm:pr-4 lg:pr-6 gap-6 lg:gap-8">
+      <section className="relative w-full py-4 sm:py-6 lg:py-8 overflow-hidden bg-[#06070A]">
+        <div className="w-full max-w-[1850px] mx-auto flex flex-col lg:flex-row items-center justify-between px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 2xl:px-24 gap-4 lg:gap-6 xl:gap-8">
           
-          {/* Left Side: Bold & Prominent Editorial Heading with Overlap */}
-          <div className="w-full lg:w-[44%] xl:w-[42%] 2xl:w-[40%] shrink-0 flex flex-col justify-center py-1 sm:py-2 relative z-20 lg:-mr-14 xl:-mr-20">
+          {/* Left Side: Bold & Prominent Editorial Heading */}
+          <div className="w-full lg:w-[42%] xl:w-[40%] 2xl:w-[38%] shrink-0 flex flex-col justify-center py-1 sm:py-2 relative z-20">
             <div className="flex items-center space-x-3 mb-2.5 sm:mb-3">
               <span className="w-12 sm:w-16 h-[2.5px] rounded-l-full bg-gradient-to-r from-[#DFC38A] via-[#DFC38A]/75 to-transparent inline-block shrink-0 shadow-[0_0_8px_rgba(223,195,138,0.4)]"></span>
-              <span className="font-mono text-xs sm:text-sm tracking-[0.28em] text-[#DFC38A] uppercase font-semibold">
+              <span className="font-mono text-xs sm:text-[13px] xl:text-sm tracking-[0.28em] text-[#DFC38A] uppercase font-semibold">
                 CEO LEADERSHIP ARCHITECTURE
               </span>
             </div>
             
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[54px] 2xl:text-[64px] leading-[1.04] text-[#F8F6F0] tracking-tight font-normal drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[50px] 2xl:text-[58px] leading-[1.05] text-[#F8F6F0] tracking-tight font-normal drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               Strengthening the <br className="hidden sm:block" />
               <span className="text-[#DFC38A] italic">Leadership Ecosystem</span> <br className="hidden sm:block" />
               Around Your CEO
             </h1>
 
-            <p className="text-stone-300 text-sm sm:text-base xl:text-lg leading-relaxed mt-3 sm:mt-4 font-light max-w-lg">
+            <p className="text-stone-300 text-base sm:text-lg xl:text-xl leading-relaxed mt-3.5 sm:mt-4 font-light max-w-xl">
               We work with CEOs, founders, and executive teams across the Gulf, Europe, Africa, and Asia to build the leadership systems that transform strategy into results.
             </p>
 
             {/* CEO Quote */}
-            <div className="border-l-2 border-[#DFC38A] pl-4 py-1.5 my-3.5 sm:my-4 space-y-0.5 bg-[#06070A]/80 backdrop-blur-sm max-w-lg">
-              <p className="font-serif italic text-[#F8F6F0] text-sm sm:text-base xl:text-lg leading-snug">
+            <div className="border-l-2 border-[#DFC38A] pl-4 py-2.5 my-4 sm:my-4.5 space-y-1 bg-[#0e1118]/60 backdrop-blur-sm max-w-xl rounded-r-lg">
+              <p className="font-serif italic text-[#F8F6F0] text-base sm:text-lg xl:text-xl leading-snug">
                 “My leadership team cannot execute fast enough.”
               </p>
-              <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] text-stone-400 uppercase block">
+              <span className="font-mono text-xs tracking-[0.22em] text-stone-400 uppercase block">
                 CEO, Regional Conglomerate
               </span>
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-5 pt-1">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1.5">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center px-6 py-3 sm:py-3.5 bg-[#DFC38A] text-[#06070A] font-semibold text-xs sm:text-sm tracking-wider uppercase hover:bg-[#E8CE99] transition-all duration-300 shadow-[0_4px_25px_rgba(223,195,138,0.25)] group"
+                className="inline-flex items-center justify-center px-6 sm:px-7 py-3.5 sm:py-4 bg-[#DFC38A] text-[#06070A] font-semibold text-xs sm:text-sm xl:text-base tracking-wider uppercase hover:bg-[#E8CE99] transition-all duration-300 shadow-[0_4px_25px_rgba(223,195,138,0.25)] group"
               >
                 <span>Explore If We&apos;re a Fit</span>
                 <span className="ml-2 group-hover:translate-x-1.5 transition-transform">→</span>
               </Link>
               <Link
                 to="/approach"
-                className="inline-flex items-center text-sm sm:text-base text-[#F8F6F0] hover:text-[#DFC38A] font-medium tracking-wide transition-colors py-1.5"
+                className="inline-flex items-center text-sm sm:text-base xl:text-lg text-[#F8F6F0] hover:text-[#DFC38A] font-medium tracking-wide transition-colors py-1.5"
               >
                 Our Approach
               </Link>
             </div>
           </div>
 
-          {/* Right Side: Wider Parallax Slider with reduced vertical height */}
-          <div className="w-full lg:w-[62%] xl:w-[64%] 2xl:w-[66%] relative z-10">
-            <div className="relative w-full h-[360px] sm:h-[420px] md:h-[480px] lg:h-[520px] xl:h-[550px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+          {/* Right Side: Wider & Prominent Parallax Slider */}
+          <div className="w-full lg:w-[57%] xl:w-[59%] 2xl:w-[61%] flex-grow relative z-10">
+            <div className="relative w-full h-[380px] sm:h-[440px] md:h-[500px] lg:h-[540px] xl:h-[580px] 2xl:h-[620px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
               <ParallaxStripSlider
                 autoplay={true}
                 autoplayInterval={5000}
+                zoomFrom={1}
                 accentColor="#DFC38A"
                 backgroundColor="#06070A"
                 showCursor={false}

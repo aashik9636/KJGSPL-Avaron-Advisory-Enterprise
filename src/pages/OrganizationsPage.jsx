@@ -204,8 +204,8 @@ export const OrganizationsPage = () => {
       <section className="relative w-full flex flex-col items-center justify-start pb-16 md:pb-24 overflow-hidden bg-[#06070A]">
         
         {/* Panoramic Image Banner with Left & Right Spacing (No Border) */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-2 sm:pt-4">
-          <div className="relative w-full h-[340px] sm:h-[420px] md:h-[480px] lg:h-[520px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+        <div className="w-full max-w-[90rem] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-2 sm:pt-4">
+          <div className="relative w-full h-[360px] sm:h-[440px] md:h-[500px] lg:h-[550px] xl:h-[580px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
             <img
               src="/images/OrganizationsValue.png"
               alt="Organizations Where Leadership Architecture Creates the Most Value"
