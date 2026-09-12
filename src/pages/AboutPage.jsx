@@ -145,11 +145,12 @@ export const AboutPage = () => {
             {/* Right Column - Hero Portrait Image (5 cols) */}
             <div className="lg:col-span-5 flex justify-center items-center">
               <div className="relative w-full max-w-[320px] sm:max-w-[350px]">
-                {/* Soft & Subtle Gray / Silver Glow on the Right Side */}
-                <div className="absolute top-10 bottom-10 -right-4 w-20 bg-gradient-to-r from-transparent via-zinc-400/20 to-stone-300/30 rounded-r-full blur-xl pointer-events-none" />
+                {/* Ambient Gold Glow behind Portrait Card */}
+                <div className="absolute -inset-2 bg-gradient-to-tr from-[#DFC38A]/20 via-[#DFC38A]/10 to-[#DFC38A]/30 rounded-3xl blur-2xl pointer-events-none -z-10" />
+                <div className="absolute top-10 bottom-10 -right-6 w-28 bg-[#DFC38A]/25 rounded-full blur-2xl pointer-events-none" />
                 
-                {/* Image Card with Subtle Right-Only Gray Drop Shadow */}
-                <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0E111B] shadow-[20px_8px_35px_-10px_rgba(180,185,200,0.25),10px_0_20px_-5px_rgba(200,205,220,0.18)] transition-all duration-500 hover:shadow-[24px_10px_40px_-8px_rgba(180,185,200,0.35)]">
+                {/* Image Card with Gold Drop Shadow */}
+                <div className="relative rounded-2xl overflow-hidden border border-[#DFC38A]/30 bg-[#0E111B] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(223,195,138,0.22)] transition-all duration-500 hover:border-[#DFC38A]/60 hover:shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_55px_rgba(223,195,138,0.38)]">
                   {/* Portrait */}
                   <img
                     src="/john-kairouz.jpg"
@@ -158,7 +159,7 @@ export const AboutPage = () => {
                   />
                   
                   {/* Subtle inner reflection */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/5 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/5 pointer-events-none" />
                 </div>
               </div>
             </div>

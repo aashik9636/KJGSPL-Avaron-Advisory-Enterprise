@@ -477,118 +477,88 @@ export const HomePage = () => {
   ];
 
   return (
-    <div ref={containerRef} className="bg-[#06070A] text-[#F8F6F0] font-sans w-full overflow-x-hidden pt-16 md:pt-20">
+    <div ref={containerRef} className="bg-[#06070A] text-[#F8F6F0] font-sans w-full overflow-x-clip pt-16 md:pt-20">
 
       {/* ========================================================
-          1. EDITORIAL HERO SECTION
+          1. EDITORIAL HERO SECTION (LEFT CONTENT + WIDE PARALLAX SLIDER)
       ======================================================== */}
-      <section className="relative min-h-[92vh] flex flex-col justify-center pb-20 pt-8 px-6 md:px-16 lg:px-24 w-full bg-architectural-grid border-b border-white/[0.06] overflow-hidden">
-        {/* Ambient Subtle Glow */}
-        <div className="absolute top-12 right-1/4 w-[600px] h-[600px] bg-white/[0.025] rounded-full blur-[180px] pointer-events-none" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 bg-white/[0.015] rounded-full blur-[140px] pointer-events-none" />
-        
-        <motion.div 
-          style={{ y: yHeroText, opacity: opacityHero }}
-          className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center pt-4"
-        >
-          {/* Left Column: Headlines, Description & Actions */}
-          <div className="lg:col-span-7 flex flex-col gap-8">
-            {/* Badge */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-              className="inline-flex items-center gap-3.5 font-mono text-xs tracking-[0.3em] text-stone-300 uppercase font-semibold"
-            >
-              <span className="w-10 sm:w-14 h-[1.5px] bg-gradient-to-r from-transparent via-stone-400 to-white" />
-              <span>CEO Leadership Architecture</span>
-            </motion.div>
-
-            {/* Monumental Editorial Headline */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl md:text-6xl xl:text-[4.8rem] leading-[1.08] font-serif font-light text-white tracking-tight"
-            >
+      <section className="relative w-full py-3 sm:py-5 overflow-hidden bg-[#06070A]">
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between pl-4 sm:pl-6 lg:pl-8 xl:pl-10 pr-2 sm:pr-4 lg:pr-6 gap-6 lg:gap-8">
+          
+          {/* Left Side: Bold & Prominent Editorial Heading with Overlap */}
+          <div className="w-full lg:w-[44%] xl:w-[42%] 2xl:w-[40%] shrink-0 flex flex-col justify-center py-1 sm:py-2 relative z-20 lg:-mr-14 xl:-mr-20">
+            <div className="flex items-center space-x-3 mb-2.5 sm:mb-3">
+              <span className="w-12 sm:w-16 h-[2.5px] rounded-l-full bg-gradient-to-r from-[#DFC38A] via-[#DFC38A]/75 to-transparent inline-block shrink-0 shadow-[0_0_8px_rgba(223,195,138,0.4)]"></span>
+              <span className="font-mono text-xs sm:text-sm tracking-[0.28em] text-[#DFC38A] uppercase font-semibold">
+                CEO LEADERSHIP ARCHITECTURE
+              </span>
+            </div>
+            
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[54px] 2xl:text-[64px] leading-[1.04] text-[#F8F6F0] tracking-tight font-normal drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               Strengthening the <br className="hidden sm:block" />
-              <span className="text-stone-400 italic font-light">Leadership Ecosystem</span> <br />
+              <span className="text-[#DFC38A] italic">Leadership Ecosystem</span> <br className="hidden sm:block" />
               Around Your CEO
-            </motion.h1>
+            </h1>
 
-            {/* Description & Quote */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="space-y-6"
-            >
-              <p className="text-base sm:text-lg font-serif text-stone-300 font-light leading-relaxed max-w-2xl">
-                We work with CEOs, founders, and executive teams across the Gulf, Europe, Africa, and Asia to build the leadership systems that transform strategy into results.
+            <p className="text-stone-300 text-sm sm:text-base xl:text-lg leading-relaxed mt-3 sm:mt-4 font-light max-w-lg">
+              We work with CEOs, founders, and executive teams across the Gulf, Europe, Africa, and Asia to build the leadership systems that transform strategy into results.
+            </p>
+
+            {/* CEO Quote */}
+            <div className="border-l-2 border-[#DFC38A] pl-4 py-1.5 my-3.5 sm:my-4 space-y-0.5 bg-[#06070A]/80 backdrop-blur-sm max-w-lg">
+              <p className="font-serif italic text-[#F8F6F0] text-sm sm:text-base xl:text-lg leading-snug">
+                “My leadership team cannot execute fast enough.”
               </p>
+              <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] text-stone-400 uppercase block">
+                CEO, Regional Conglomerate
+              </span>
+            </div>
 
-              {/* Minimalist Quote Callout */}
-              <div className="flex items-start gap-3.5 p-4 sm:p-5 rounded-xl bg-white/[0.02] border border-white/[0.08] max-w-xl">
-                <span className="text-stone-500 font-serif text-2xl leading-none select-none">“</span>
-                <div>
-                  <p className="text-stone-200 text-sm sm:text-base font-serif italic leading-snug">
-                    My leadership team cannot execute fast enough.
-                  </p>
-                  <p className="font-mono text-[11px] text-stone-400 uppercase tracking-widest mt-1.5 font-medium">
-                    — CEO, Regional Conglomerate
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                <Link 
-                  to="/contact" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-mono text-xs uppercase tracking-widest font-bold rounded hover:bg-stone-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] text-center"
-                >
-                  <span>Explore If We're a Fit</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link 
-                  to="/approach" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/[0.03] border border-white/15 text-white font-mono text-xs uppercase tracking-widest font-semibold rounded hover:bg-white/[0.08] hover:border-white/30 transition-all text-center"
-                >
-                  <span>Our Approach</span>
-                </Link>
-              </div>
-            </motion.div>
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-5 pt-1">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center px-6 py-3 sm:py-3.5 bg-[#DFC38A] text-[#06070A] font-semibold text-xs sm:text-sm tracking-wider uppercase hover:bg-[#E8CE99] transition-all duration-300 shadow-[0_4px_25px_rgba(223,195,138,0.25)] group"
+              >
+                <span>Explore If We&apos;re a Fit</span>
+                <span className="ml-2 group-hover:translate-x-1.5 transition-transform">→</span>
+              </Link>
+              <Link
+                to="/approach"
+                className="inline-flex items-center text-sm sm:text-base text-[#F8F6F0] hover:text-[#DFC38A] font-medium tracking-wide transition-colors py-1.5"
+              >
+                Our Approach
+              </Link>
+            </div>
           </div>
 
-          {/* Right Column: Hero Full Image Parallax Strip Slider */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.96, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex justify-center lg:justify-end w-full"
-          >
-            <div className="relative w-full max-w-[560px] lg:max-w-none h-[540px] sm:h-[600px] lg:h-[640px] rounded-2xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.9)] bg-[#06070A]">
+          {/* Right Side: Wider Parallax Slider with reduced vertical height */}
+          <div className="w-full lg:w-[62%] xl:w-[64%] 2xl:w-[66%] relative z-10">
+            <div className="relative w-full h-[360px] sm:h-[420px] md:h-[480px] lg:h-[520px] xl:h-[550px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
               <ParallaxStripSlider
                 autoplay={true}
+                autoplayInterval={5000}
                 accentColor="#DFC38A"
                 backgroundColor="#06070A"
                 showCursor={false}
+                showProgressBar={false}
+                showCounter={false}
+                showCaptions={false}
+                showControls={true}
                 className="w-full h-full"
               />
+              {/* Subtle bottom gradient to blend into next section */}
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#06070A] to-transparent pointer-events-none z-10" />
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-          <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-stone-400">SCROLL</span>
-          <div className="w-[1px] h-6 bg-gradient-to-b from-stone-400 to-transparent animate-pulse" />
         </div>
       </section>
 
       {/* ========================================================
           2. CLIENT MARQUEE (Movable & Infinite Smooth Loop)
       ======================================================== */}
-      <section className="pt-10 sm:pt-12 pb-6 sm:pb-8 border-b border-white/[0.08] bg-[#080A0F] relative z-20 overflow-hidden">
+      <section className="mt-4 sm:mt-8 md:mt-10 pt-10 sm:pt-14 pb-8 sm:pb-10 bg-[#080A0F] relative z-20 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 mb-5 text-center">
           <span className="font-mono text-xs sm:text-sm tracking-[0.28em] text-stone-400 uppercase font-semibold">
             Trusted by Global Organisations
@@ -601,12 +571,19 @@ export const HomePage = () => {
 
         <div className="w-full overflow-hidden flex">
           <div className="animate-marquee flex items-center space-x-12 sm:space-x-16 whitespace-nowrap select-none py-1">
-            {[...clients, ...clients].map((client, idx) => (
-              <div 
-                key={idx} 
-                className="group inline-flex items-center space-x-4 sm:space-x-5 text-stone-300 hover:text-white transition-colors duration-300 font-mono text-sm sm:text-base tracking-[0.22em] uppercase cursor-default mr-8 sm:mr-12"
-              >
-                <div className="shrink-0 flex items-center justify-center p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] group-hover:border-white/20 group-hover:bg-white/[0.06] transition-all">
+            {clients.map((client, idx) => (
+              <div key={idx} className="flex items-center space-x-4 grayscale opacity-45 hover:grayscale-0 hover:opacity-100 transition-all duration-300 group cursor-default">
+                <div className="flex items-center justify-center">
+                  {client.logo}
+                </div>
+                <span className="font-medium">{client.name}</span>
+              </div>
+            ))}
+          </div>
+          <div className="animate-marquee flex items-center space-x-12 sm:space-x-16 whitespace-nowrap select-none py-1" aria-hidden="true">
+            {clients.map((client, idx) => (
+              <div key={`dup-${idx}`} className="flex items-center space-x-4 grayscale opacity-45 hover:grayscale-0 hover:opacity-100 transition-all duration-300 group cursor-default">
+                <div className="flex items-center justify-center">
                   {client.logo}
                 </div>
                 <span className="font-medium">{client.name}</span>
@@ -619,21 +596,21 @@ export const HomePage = () => {
       {/* ========================================================
           3. THE LEADERSHIP GAP (PINNED PARALLAX SCROLL)
       ======================================================== */}
-      <section className="py-24 md:py-32 px-6 md:px-16 lg:px-24 bg-obsidian relative max-w-[1400px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative items-start">
+      <section className="py-16 md:py-24 px-6 md:px-16 lg:px-24 bg-obsidian relative max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 relative items-start">
           
-          {/* Left Fixed Center Title - Enters with Point 01, locks at screen center, exits with Point 04 */}
+          {/* Left Fixed Center Title - Pins when reaching middle of screen and scrolls up with Point 04 */}
           <div className="lg:col-span-5 h-fit pinned-crises-left z-10 pt-2 pb-6">
-            <div className="font-mono text-xs tracking-[0.25em] text-stone-300 uppercase mb-5 flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-stone-400" />
+            <div className="font-mono text-xs tracking-[0.2em] text-[#DFC38A] uppercase mb-3 flex items-center gap-2.5">
+              <span className="w-8 h-[1.5px] bg-gradient-to-r from-[#DFC38A] to-transparent inline-block" />
               <span>The Leadership Gap</span>
             </div>
             
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light leading-[1.12] text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light leading-[1.08] text-white mb-4">
               CEOs and Founders Face a Common Challenge
             </h2>
 
-            <div className="space-y-4 text-stone-300 font-light leading-relaxed text-sm sm:text-base border-l border-white/15 pl-5 mb-8">
+            <div className="space-y-2.5 text-stone-300 font-light leading-normal sm:leading-relaxed text-sm sm:text-base border-l-2 border-[#DFC38A]/30 pl-4 mb-6">
               <p>
                 Economic transformation, AI disruption, family business succession, and talent shortages are creating leadership complexity that most organisations are not equipped to handle.
               </p>
@@ -644,38 +621,38 @@ export const HomePage = () => {
 
             <Link 
               to="/approach" 
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-white hover:text-stone-300 transition-colors border-b border-white/30 pb-1"
+              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-white hover:text-[#DFC38A] transition-colors border-b border-white/30 pb-1"
             >
               <span>How We Solve It</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {/* Right Scrolling Content - Starts at same baseline as Left Title */}
-          <div id="crises-right-container" className="lg:col-span-7 space-y-24 sm:space-y-32 pt-2 pb-24">
+          {/* Right Scrolling Content */}
+          <div id="crises-right-container" className="lg:col-span-7 space-y-14 sm:space-y-16 pt-2 pb-16">
             {crisisPoints.map((crisis) => (
-              <div id={`crisis-item-${crisis.id}`} key={crisis.id} className="reveal-item flex flex-col md:flex-row gap-6 md:gap-10 items-start group">
-                <div className="text-5xl md:text-6xl font-serif font-light text-stone-600 group-hover:text-white transition-colors duration-500 shrink-0">
+              <div id={`crisis-item-${crisis.id}`} key={crisis.id} className="reveal-item flex flex-col md:flex-row gap-5 md:gap-8 items-start group">
+                <div className="text-4xl sm:text-5xl md:text-6xl font-serif font-light text-[#DFC38A]/50 group-hover:text-[#DFC38A] transition-colors duration-500 shrink-0">
                   {crisis.id}
                 </div>
-                <div className="space-y-4 pt-1 flex-1">
-                  <div className="font-mono text-xs uppercase tracking-widest text-stone-400">
+                <div className="space-y-2.5 pt-0.5 flex-1">
+                  <div className="font-mono text-xs uppercase tracking-wider text-[#DFC38A]">
                     <span>{crisis.title}</span>
                   </div>
                   <h3 className="text-2xl md:text-3xl font-serif text-white leading-snug">
                     "{crisis.quote}"
                   </h3>
-                  <div className="font-mono text-xs uppercase tracking-wider text-stone-400">
-                    <span className="bg-white/[0.04] px-3 py-1.5 border border-white/10 rounded inline-block">{crisis.role}</span>
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-stone-400">
+                    <span className="bg-white/[0.04] px-2.5 py-1 border border-white/10 rounded inline-block">{crisis.role}</span>
                   </div>
-                  <p className="text-stone-300 font-light text-sm sm:text-base leading-relaxed pt-2">
+                  <p className="text-stone-300 font-light text-sm sm:text-base leading-normal sm:leading-relaxed pt-1">
                     {crisis.description}
                   </p>
                 </div>
               </div>
             ))}
 
-            <div className="reveal-item p-8 rounded-xl bg-white/[0.02] border border-white/10 text-stone-300 font-serif italic text-lg sm:text-xl leading-relaxed">
+            <div className="reveal-item p-6 sm:p-7 rounded-xl bg-white/[0.02] border border-[#DFC38A]/20 text-stone-300 font-serif italic text-base sm:text-lg leading-relaxed">
               "These are not isolated problems. They are symptoms of an architecture that was never designed to scale."
             </div>
           </div>

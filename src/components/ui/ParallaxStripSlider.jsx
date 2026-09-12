@@ -45,10 +45,10 @@ if (typeof window !== "undefined") {
 
 // Animation timing
 const STRIP_COUNT = 10;
-const REVEAL_DURATION = 0.5;
-const STRIP_STAGGER = 0.04;
-const ZOOM_DURATION = 0.9;
-const ZOOM_FROM = 1.2;
+const REVEAL_DURATION = 0.7;
+const STRIP_STAGGER = 0.05;
+const ZOOM_DURATION = 1.2;
+const ZOOM_FROM = 1.15;
 const AUTOPLAY_INTERVAL = 5000;
 const TITLE_CHAR_DURATION = 0.6;
 const TITLE_CHAR_STAGGER = 0.04;
@@ -89,10 +89,12 @@ export default function ParallaxStripSlider({
   zoomFrom = ZOOM_FROM,
   zoomDuration = ZOOM_DURATION,
   autoplay = true,
+  autoplayInterval = AUTOPLAY_INTERVAL,
   showProgressBar = true,
   showCounter = true,
   showControls = true,
   showCursor = false,
+  showCaptions = true,
   accentColor = "#DFC38A",
   backgroundColor = "#06070A",
 }) {
@@ -170,9 +172,9 @@ export default function ParallaxStripSlider({
     if (typeof window !== "undefined" && prefersReducedMotion()) return;
     const id = window.setInterval(() => {
       if (!isAnimating.current) onNext();
-    }, AUTOPLAY_INTERVAL);
+    }, autoplayInterval);
     return () => window.clearInterval(id);
-  }, [autoplay, total, onNext]);
+  }, [autoplay, autoplayInterval, total, onNext]);
 
   // Wipe + zoom + progress on slide change.
   useGSAP(
@@ -605,44 +607,46 @@ export default function ParallaxStripSlider({
       )}
 
       {/* Bottom bar: Chapter, Title & Counter with smooth protective vignette */}
-      <div 
-        ref={captionRef}
-        className="absolute inset-x-0 bottom-0 px-6 sm:px-8 pb-6 sm:pb-8 pt-20 z-10 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-end justify-between gap-4 pointer-events-none"
-      >
-        <div className="flex flex-col gap-1">
-          <span
-            ref={chapterRef}
-            className="block font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.25em] uppercase"
-            style={{ color: accentColor }}
-          >
-            {activeSlide.chapter ??
-              `Collection ${String(caption + 1).padStart(2, "0")}`}
-          </span>
-          <h2
-            ref={titleRef}
-            className="text-2xl sm:text-3xl lg:text-4xl font-serif font-light text-white leading-tight tracking-tight drop-shadow-md"
-            style={{
-              fontFamily: '"Instrument Serif", "Cormorant Garamond", Georgia, serif',
-            }}
-          >
-            {activeSlide.title}
-          </h2>
-        </div>
-
-        {showCounter && (
-          <span
-            ref={counterRef}
-            className="font-mono text-xs text-stone-300 tracking-widest font-medium pb-1 shrink-0"
-          >
-            <span className="inline-block w-[2ch] overflow-hidden text-right text-white">
-              <span ref={counterNumRef} className="inline-block">
-                {String(caption + 1).padStart(2, "0")}
-              </span>
+      {showCaptions && (
+        <div 
+          ref={captionRef}
+          className="absolute inset-x-0 bottom-0 px-6 sm:px-8 pb-6 sm:pb-8 pt-20 z-10 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-end justify-between gap-4 pointer-events-none"
+        >
+          <div className="flex flex-col gap-1">
+            <span
+              ref={chapterRef}
+              className="block font-mono text-[10px] sm:text-[11px] font-semibold tracking-[0.25em] uppercase"
+              style={{ color: accentColor }}
+            >
+              {activeSlide.chapter ??
+                `Collection ${String(caption + 1).padStart(2, "0")}`}
             </span>
-            <span> / {String(total).padStart(2, "0")}</span>
-          </span>
-        )}
-      </div>
+            <h2
+              ref={titleRef}
+              className="text-2xl sm:text-3xl lg:text-4xl font-serif font-light text-white leading-tight tracking-tight drop-shadow-md"
+              style={{
+                fontFamily: '"Instrument Serif", "Cormorant Garamond", Georgia, serif',
+              }}
+            >
+              {activeSlide.title}
+            </h2>
+          </div>
+
+          {showCounter && (
+            <span
+              ref={counterRef}
+              className="font-mono text-xs text-stone-300 tracking-widest font-medium pb-1 shrink-0"
+            >
+              <span className="inline-block w-[2ch] overflow-hidden text-right text-white">
+                <span ref={counterNumRef} className="inline-block">
+                  {String(caption + 1).padStart(2, "0")}
+                </span>
+              </span>
+              <span> / {String(total).padStart(2, "0")}</span>
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Circular nav cursor */}
       {showControls && showCursor && total > 1 && !isCoarsePointer && (

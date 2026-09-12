@@ -92,27 +92,38 @@ export const PartnershipsPage = () => {
   return (
     <div className="bg-[#06070A] text-[#F8F6F0] pt-16 md:pt-20 min-h-screen">
       
-      {/* 1. HERO HEADER (LEFT-ALIGNED, FULL VIEWPORT HEIGHT, LUXURY STYLING) */}
-      <section className="relative min-h-[75vh] md:min-h-[82vh] flex flex-col justify-center py-16 md:py-24 bg-gradient-to-b from-[#0C0F17] via-[#080A0E] to-[#06070A] overflow-hidden">
-        {/* Ambient Subtle Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#DFC38A]/10 via-transparent to-transparent pointer-events-none" />
+      {/* 1. PANORAMIC HERO (FULL BREADTH IMAGE WITH CENTERED TEXT BELOW) */}
+      <section className="relative w-full flex flex-col items-center justify-start pb-16 md:pb-24 overflow-hidden bg-[#06070A]">
         
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full my-auto">
-          <div className="max-w-4xl space-y-7 text-left">
-            <div className="inline-flex items-center gap-3.5 font-mono text-xs tracking-[0.3em] text-[#DFC38A] uppercase font-semibold">
-              <span className="w-10 sm:w-14 h-[1.5px] bg-gradient-to-r from-transparent via-[#DFC38A] to-[#F0E5CC]" />
-              <span>Strategic Partnerships</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-light text-white leading-[1.08] tracking-tight">
-              Building Alliances That <br />
-              <span className="text-[#DFC38A] italic font-normal">Amplify Impact</span>
-            </h1>
-
-            <p className="text-base sm:text-lg md:text-xl font-serif text-stone-300 leading-relaxed max-w-2xl sm:max-w-3xl border-l-2 border-[#DFC38A]/50 pl-5 sm:pl-6 py-1">
-              We partner with a select group of organizations that share our commitment to transformational leadership development. Our partnerships are strategic alliances—not referral arrangements.
-            </p>
+        {/* Panoramic Image Banner with Left & Right Spacing (No Border) */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-2 sm:pt-4">
+          <div className="relative w-full h-[340px] sm:h-[420px] md:h-[480px] lg:h-[520px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+            <img
+              src="/images/partnership.png"
+              alt="Building Alliances That Amplify Impact"
+              className="w-full h-full object-cover object-center brightness-110 contrast-105 saturate-105"
+            />
+            {/* Deep smooth bottom vignette to keep floor reflection subtle and dark behind text */}
+            <div className="absolute bottom-0 left-0 right-0 h-40 sm:h-52 md:h-64 bg-gradient-to-t from-[#06070A] via-[#06070A]/80 via-45% to-transparent pointer-events-none" />
           </div>
+        </div>
+
+        {/* TEXT CONTENT BELOW THE IMAGE (WITH DARK VIGNETTE BACKDROP) */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 md:px-12 w-full -mt-4 sm:-mt-6 md:-mt-8 flex flex-col items-center text-center space-y-3 sm:space-y-4">
+
+          {/* Centered & Bold Heading - Single Line with Dark Backing */}
+          <div className="relative inline-block">
+            <div className="absolute -inset-x-12 -inset-y-4 bg-[#06070A]/80 blur-xl pointer-events-none -z-10" />
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] font-serif font-semibold text-white leading-tight tracking-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)] max-w-6xl mx-auto">
+              Building Alliances That <span className="text-[#DFC38A] italic font-bold">Amplify Impact</span>
+            </h1>
+          </div>
+
+          {/* Centered Description */}
+          <p className="text-base sm:text-lg md:text-xl font-serif text-stone-300 leading-relaxed font-light max-w-3xl mx-auto px-4">
+            We partner with a select group of organizations that share our commitment to transformational leadership development. Our partnerships are strategic alliances—not referral arrangements.
+          </p>
+
         </div>
       </section>
 
